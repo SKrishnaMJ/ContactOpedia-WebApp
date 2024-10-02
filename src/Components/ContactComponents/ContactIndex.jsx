@@ -39,9 +39,43 @@ class ContactIndex extends React.Component{
             ]
         }
     }
-    handleAddContact = () => {
-        alert("hello");
+    handleAddContact = (newContact) => {
+        if (newContact.name==""){
+            return {status: "failure", msg:"Please enter a valid name"};
+        } else if (newContact.phone==""){
+            return {status: "failure", msg:"Please enter a valid phone number"};
+        }
 
+        const duplicateRec = this.state.contactList.filter((x)=>{
+            if (x.name==newContact.name && x.phone == newContact.phone) {
+                return true;
+            }
+        })
+        if (duplicateRec.length > 0){
+            return{status:"failure", msg:"Duplicate Record"}
+        }
+        else{
+        const newFinalContact = {...newContact,id:this.state.contactList[this.state.contactList.length - 1].id + 1, isFav:false,};
+        this.setState((previousState) => {
+            return {
+                contactList: previousState.contactList.concat([newFinalContact]),
+            };
+        });
+return{status:"success", msg:"Contact added successfully"}
+    }
+    }
+    handleToggleFavourites = (contact) => {
+        this.setState((prevState)=>{
+            return{
+                contactList: prevState.contactList.map((obj)=>{
+                    if(obj.id==contact.id){
+                        return{...obj, isFav: !obj.isFav}
+                    }
+                    return obj;
+                })
+            }
+
+        })
     }
     render(){
         return(
@@ -62,12 +96,12 @@ class ContactIndex extends React.Component{
                         </div>
                         <div className="row py-2">
                         <div className="col-8 offset-2 row">
-                            <FavouriteContacts contacts={this.state.contactList.filter((u)=>u.isFav==true)}/>
+                            <FavouriteContacts contacts={this.state.contactList.filter((u)=>u.isFav==true)} favouriteClick={this.handleToggleFavourites}/>
                             </div>
                         </div>
                         <div className="row py-2">
                         <div className="col-8 offset-2 row">
-                            <GeneralContacts contacts={this.state.contactList.filter((u)=>u.isFav==false)}/>
+                            <GeneralContacts contacts={this.state.contactList.filter((u)=>u.isFav==false)} favouriteClick={this.handleToggleFavourites}/>
                             </div>
                         </div>
                     </div>

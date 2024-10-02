@@ -15,16 +15,16 @@ const Contact = (props) => {
             <div className="col-2 col-md-2 pt-md-3">
                 <button className={`btn btn-sm m-1 ${
                     props.contact.isFav? "btn-warning":"btn-outline-warning"
-                }`}>
-                    <i class="bi bi-star" style={{fontSize:"1rem"}}></i>
+                }`} onClick={()=>props.favouriteClick(props.contact)}>
+                    <i className="bi bi-star" style={{fontSize:"1rem"}}></i>
                 </button>
             </div>
             <div className="col-2 col-md-3 pt-md-3">
                 <button className="btn btn-primary btn-sm-1">
-                <i class="bi bi-pencil-square" style={{fontSize:"1rem"}} ></i>
+                <i className="bi bi-pencil-square" style={{fontSize:"1rem"}} ></i>
                 </button>
                 <button className="btn btn-danger btn-sm-1">
-                <i class="bbi bi-trash-fill" style={{fontSize:"1rem"}} ></i>
+                <i className="bbi bi-trash-fill" style={{fontSize:"1rem"}} ></i>
                 </button>
             </div>
         </div>
